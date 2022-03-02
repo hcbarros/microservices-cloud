@@ -16,7 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>     
+        <maven.compiler.target>8</maven.compiler.target>     
     </properties>
     <dependencies>
         <dependency>
@@ -87,7 +87,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                    <source>11</source>
-                   <target>11</target>
+                   <target>8</target>
                 </configuration>     
             </plugin>
         </plugins>
