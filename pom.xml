@@ -15,6 +15,8 @@
     <description>api-product</description>
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>     
     </properties>
     <dependencies>
         <dependency>
@@ -83,6 +85,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                   <source>11</source>
+                   <target>11</target>
+                </configuration>     
             </plugin>
         </plugins>
     </build>
