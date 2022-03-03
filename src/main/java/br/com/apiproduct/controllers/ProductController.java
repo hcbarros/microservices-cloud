@@ -30,12 +30,12 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-//     @ApiOperation(value="Return all products")
-//     @GetMapping("/findall")
-//     public ResponseEntity<List<Product>> findAll() {
-//         List<Product> products = service.findAll();
-//         return ResponseEntity.ok(products);
-//     }
+    @ApiOperation(value="Return all products")
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll() {
+        List<Product> products = service.findAll();
+        return ResponseEntity.ok(products);
+    }
 
     @ApiOperation(value="Save product")
     @PostMapping
@@ -49,21 +49,21 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
-//     @ApiOperation(value="Update product")
-//     @PutMapping("/update/{id}")
-//     public ResponseEntity<Product> update(@RequestBody Product p,
-//                                           @PathVariable Long id) {
+    @ApiOperation(value="Update product")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Product> update(@RequestBody Product p,
+                                          @PathVariable Long id) {
 
-//         Product product = service.update(id, p);
-//         return ResponseEntity.ok(product);
-//     }
+        Product product = service.update(id, p);
+        return ResponseEntity.ok(product);
+    }
 
-//     @ApiOperation(value="Execute an order")
-//     @PutMapping("/reserveProducts")
-//     public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
+    @ApiOperation(value="Execute an order")
+    @PutMapping("/reserveProducts")
+    public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
 
-//         OrderDTO o = service.reserveProducts(order);
-//         return ResponseEntity.ok(o);
-//     }
+        OrderDTO o = service.reserveProducts(order);
+        return ResponseEntity.ok(o);
+    }
 
 }
