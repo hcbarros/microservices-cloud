@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @ApiOperation(value="Return all products")
-    @GetMapping
+    @GetMapping("/findall")
     public ResponseEntity<List<Product>> findAll() {
         List<Product> products = service.findAll();
         return ResponseEntity.ok(products);
