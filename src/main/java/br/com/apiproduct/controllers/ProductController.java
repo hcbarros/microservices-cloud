@@ -58,12 +58,12 @@ public class ProductController {
 //         return ResponseEntity.ok(product);
 //     }
 
-    @ApiOperation(value="Execute an order")
-    @PutMapping("/reserveProducts")
-    public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
+//     @ApiOperation(value="Execute an order")
+//     @PutMapping("/reserveProducts")
+//     public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
 
-        OrderDTO o = service.reserveProducts(order);
-        return ResponseEntity.ok(o);
-    }
+//         OrderDTO o = service.reserveProducts(order);
+//         return ResponseEntity.ok(o);
+//     }
 
 }
