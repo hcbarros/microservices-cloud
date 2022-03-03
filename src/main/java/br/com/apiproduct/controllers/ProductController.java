@@ -30,12 +30,12 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @ApiOperation(value="Return all products")
-    @GetMapping("/findall")
-    public ResponseEntity<List<Product>> findAll() {
-        List<Product> products = service.findAll();
-        return ResponseEntity.ok(products);
-    }
+//     @ApiOperation(value="Return all products")
+//     @GetMapping("/findall")
+//     public ResponseEntity<List<Product>> findAll() {
+//         List<Product> products = service.findAll();
+//         return ResponseEntity.ok(products);
+//     }
 
     @ApiOperation(value="Save product")
     @PostMapping
