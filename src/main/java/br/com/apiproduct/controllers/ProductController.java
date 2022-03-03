@@ -62,7 +62,7 @@ public class ProductController {
     @PutMapping("/reserveProducts")
     public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
 
-        OrderDTO o = service.executeOrder(order);
+        OrderDTO o = service.reserveProducts(order);
         return ResponseEntity.ok(o);
     }
 

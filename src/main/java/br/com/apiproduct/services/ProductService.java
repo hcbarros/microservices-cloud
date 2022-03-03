@@ -46,7 +46,7 @@ public class ProductService {
         return repo.findAll();
     }
 
-    public OrderDTO executeOrder(OrderDTO order) {
+    public OrderDTO reserveProducts(OrderDTO order) {
         List<OrderProductDTO> list = new ArrayList<>();
         List<OrderProductDTO> products = order.getProductDTOS();
         products.forEach(p -> {
