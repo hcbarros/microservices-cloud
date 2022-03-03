@@ -46,6 +46,10 @@ public class ProductService {
         return repo.findAll();
     }
 
+    public List<Product> findAllById(List<Long> ids) {
+        return repo.findAllById(ids);
+    }
+
     public OrderDTO reserveProducts(OrderDTO order) {
         List<OrderProductDTO> list = new ArrayList<>();
         List<OrderProductDTO> products = order.getProductDTOS();

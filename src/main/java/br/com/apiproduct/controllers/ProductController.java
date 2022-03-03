@@ -37,6 +37,13 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @ApiOperation(value="Return all products by id")
+    @GetMapping("/allbyid")
+    public ResponseEntity<List<Product>> findAllById(@RequestBody List<Long> ids) {
+        List<Product> products = service.findAllById(ids);
+        return ResponseEntity.ok(products);
+    }
+
     @ApiOperation(value="Save product")
     @PostMapping
     public ResponseEntity<Product> save(@Valid  @RequestBody Product product) {

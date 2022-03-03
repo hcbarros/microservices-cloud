@@ -5,12 +5,10 @@ import br.com.apiproduct.enums.Status;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
-public class OrderDTO implements Serializable {
 
-    private Long orderId;
+public class OrderDTO implements Serializable {
 
     private List<OrderProductDTO> productDTOS;
 
@@ -23,8 +21,7 @@ public class OrderDTO implements Serializable {
         super();
     }
 
-    public OrderDTO(Long orderId, List<OrderProductDTO> productDTOS, Status status) {
-        this.orderId = orderId;
+    public OrderDTO(List<OrderProductDTO> productDTOS, Status status) {
         this.productDTOS = productDTOS;
         this.total = BigDecimal.ZERO;
     }
@@ -36,10 +33,6 @@ public class OrderDTO implements Serializable {
 
     public void setProductDTOS(List<OrderProductDTO> productDTOS) {
         this.productDTOS = productDTOS;
-    }
-
-    public Long getOrderId() {
-        return orderId;
     }
 
     public Status getStatus() {
