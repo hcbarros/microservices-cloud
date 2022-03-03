@@ -3,8 +3,8 @@ spring:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
-      # ddl-auto: update
+      ddl-auto: update
+      # ddl-auto: create-drop
   datasource:
     url: jdbc:postgresql://ec2-3-216-113-109.compute-1.amazonaws.com:5432/dl3hr4o1i67ug
     username: ghprmcmxawpbaz
