@@ -49,14 +49,14 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
-    @ApiOperation(value="Update product")
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Product> update(@RequestBody Product p,
-                                          @PathVariable Long id) {
+//     @ApiOperation(value="Update product")
+//     @PutMapping("/update/{id}")
+//     public ResponseEntity<Product> update(@RequestBody Product p,
+//                                           @PathVariable Long id) {
 
-        Product product = service.update(id, p);
-        return ResponseEntity.ok(product);
-    }
+//         Product product = service.update(id, p);
+//         return ResponseEntity.ok(product);
+//     }
 
     @ApiOperation(value="Execute an order")
     @PutMapping("/reserveProducts")
