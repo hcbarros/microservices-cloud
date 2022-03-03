@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
-import java.util.List;
+
 
 @Configuration
 public class DataLoader {
@@ -27,8 +27,6 @@ public class DataLoader {
             Product p8 = new Product("Onions", "0.8", "100");
             Product p9 = new Product("Rice", "1.8", "80");
             Product p10 = new Product("Sausage", "2", "90");
-
-            List<Product> list =  List.of(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10);
 
             for(Product p: Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10)) {
                 if(!repo.existsByName(p.getName())) {
