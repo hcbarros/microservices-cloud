@@ -3,7 +3,6 @@ package br.com.apiproduct.controllers;
 import br.com.apiproduct.models.Product;
 import br.com.apiproduct.services.ProductService;
 import br.com.apiproduct.templates.OrderDTO;
-import br.com.apiproduct.templates.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,29 +49,21 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
-    @ApiOperation(value="Update a product")
-    @PutMapping("/update")
-    public ResponseEntity<Product> update(@RequestBody ProductDTO pDTO) {
+    @ApiOperation(value="Update product")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Product> update(@RequestBody Product p,
+                                          @PathVariable Long id) {
 
-        Product product = service.update(pDTO);
+        Product product = service.update(id, p);
         return ResponseEntity.ok(product);
     }
 
-    @ApiOperation(value="Reserve quantity of a product")
-    @PutMapping("/reserveOne")
-    public ResponseEntity<Product> reserveProduct(@RequestBody OrderDTO orderDTO) {
+    @ApiOperation(value="Execute an order")
+    @PutMapping("/reserveProducts")
+    public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
 
-        Product product = service.reserveProduct(orderDTO);
-        return ResponseEntity.ok(product);
+        OrderDTO o = service.executeOrder(order);
+        return ResponseEntity.ok(o);
     }
-
-    @ApiOperation(value="Reserve many products")
-    @PutMapping("/reserveMany")
-    public ResponseEntity<List<Product>> reserveProducts(@RequestBody List<OrderDTO> orders) {
-
-        List<Product> products = service.reserveProducts(orders);
-        return ResponseEntity.ok(products);
-    }
-
 
 }

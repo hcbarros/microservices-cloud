@@ -1,58 +1,65 @@
 package br.com.apiproduct.templates;
 
+import br.com.apiproduct.enums.Status;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class OrderDTO implements Serializable {
 
-    private Long id;
+    private Long orderId;
 
-    private Long productId;
+    private List<OrderProductDTO> productDTOS;
 
-    private Integer amount;
+    @NotNull(message = "Order status cannot be null!")
+    private Status status;
 
-    private LocalDate createdAt;
+    private BigDecimal total;
 
     public OrderDTO() {
         super();
     }
 
-    public OrderDTO(Long id, Long productId, Integer amount, LocalDate createdAt) {
-        this.id = id;
-        this.productId = productId;
-        this.amount = amount;
-        this.createdAt = createdAt;
+    public OrderDTO(Long orderId, List<OrderProductDTO> productDTOS, Status status) {
+        this.orderId = orderId;
+        this.productDTOS = productDTOS;
+        this.total = BigDecimal.ZERO;
     }
 
-    public Long getId() {
-        return id;
+
+    public List<OrderProductDTO> getProductDTOS() {
+        return productDTOS;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductDTOS(List<OrderProductDTO> productDTOS) {
+        this.productDTOS = productDTOS;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public Status getStatus() {
+        return status;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
+    public void addValue(String value) {
+        total = total.add(new BigDecimal(value));
     }
+
 }

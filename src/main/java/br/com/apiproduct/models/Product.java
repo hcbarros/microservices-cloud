@@ -1,15 +1,15 @@
 package br.com.apiproduct.models;
 
+import br.com.apiproduct.enums.Status;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Entity
-public class Product implements Serializable {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,10 +67,15 @@ public class Product implements Serializable {
         this.stock = stock;
     }
 
-    public int updateStock(Integer amount) {
-        int resp = Integer.parseInt(stock) - amount;
-        this.stock = String.valueOf(resp);
-        return resp;
+    public int updateStock(Integer amount, Status status) {
+        if(status == Status.AWAITING_PAYMENT) {
+            stock = String.valueOf(Integer.parseInt(stock) - amount);
+            return Integer.parseInt(stock);
+        }
+        else if(status == Status.CANCELED) {
+            stock = String.valueOf(Integer.parseInt(stock) + amount);
+        }
+        return -1;
     }
 
 }

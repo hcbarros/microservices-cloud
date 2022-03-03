@@ -1,12 +1,14 @@
 package br.com.apiproduct.services;
 
+import br.com.apiproduct.enums.Status;
 import br.com.apiproduct.templates.OrderDTO;
 import br.com.apiproduct.models.Product;
-import br.com.apiproduct.models.repositories.ProductRepository;
-import br.com.apiproduct.templates.ProductDTO;
+import br.com.apiproduct.repositories.ProductRepository;
+import br.com.apiproduct.templates.OrderProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,44 +26,42 @@ public class ProductService {
         return repo.save(product);
     }
 
-    public Product update(ProductDTO pDTO) {
-        Product p = findById(pDTO.getId());
-        p.setStock(pDTO.getStock());
-        p.setName(pDTO.getName());
-        p.setPrice(pDTO.getPrice());
+    public Product update(Long id, Product product) {
+        Product p = findById(id);
+        Product compare = repo.findByName(product.getName());
+        if(compare.getId() != p.getId()) {
+            throw new RuntimeException("There is already a product with the name "+product.getName());
+        }
+        p.setStock(product.getStock());
+        p.setName(product.getName());
+        p.setPrice(product.getPrice());
         return repo.save(p);
     }
 
     public Product findById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
+        return repo.findById(id).orElse(null);
     }
 
     public List<Product> findAll() {
         return repo.findAll();
     }
 
-    public Product reserveProduct(OrderDTO order) {
-        Product product = findById(order.getProductId());
-        int stock = product.updateStock(order.getAmount());
-        if(stock < 0) {
-            throw new RuntimeException("There is no quantity of this product to fulfill the order.");
-        }
-        return repo.save(product);
-    }
-
-    public List<Product> reserveProducts(List<OrderDTO> orders) {
-        List<Product> list = new ArrayList<>();
-        orders.forEach(order -> {
-            Product product = findById(order.getProductId());
-            int stock = product.updateStock(order.getAmount());
-            if(stock < 0) {
-                throw new RuntimeException("There is no quantity of this product to fulfill the order.");
+    public OrderDTO executeOrder(OrderDTO order) {
+        List<OrderProductDTO> list = new ArrayList<>();
+        List<OrderProductDTO> products = order.getProductDTOS();
+        products.forEach(p -> {
+            Product product = findById(p.getIdProduct());
+            if(product != null && order.getStatus() != Status.PAID_OFF) {
+                int resp = product.updateStock(p.getAmount(), order.getStatus());
+                if(resp >= 0) {
+                    repo.save(product);
+                    order.addValue(product.getPrice());;
+                }
+                list.add(p);
             }
-            product = repo.save(product);
-            if(!list.contains(product)) list.add(product);
         });
-        return list;
+        order.setProductDTOS(list);
+        return order;
     }
 
 
