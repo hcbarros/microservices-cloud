@@ -67,15 +67,14 @@ public class Product {
         this.stock = stock;
     }
 
-    public int updateStock(Integer amount, Status status) {
-        if(status == Status.AWAITING_PAYMENT) {
-            stock = String.valueOf(Integer.parseInt(stock) - amount);
-            return Integer.parseInt(stock);
-        }
-        else if(status == Status.CANCELED) {
-            stock = String.valueOf(Integer.parseInt(stock) + amount);
-        }
-        return -1;
+    public int subtractStock(int amount) {
+        int temp = Integer.parseInt(stock) - amount;
+        stock = temp < 0 ? "0" : String.valueOf(temp);
+        return temp;
+    }
+
+    public void addStock(Integer amount) {
+        stock = String.valueOf(Integer.parseInt(stock) + amount);
     }
 
 }

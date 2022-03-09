@@ -44,6 +44,16 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @ApiOperation(value="returns products per page, starting with page 1")
+    @GetMapping("/paginated/{pageNum}/{amount}")
+    public ResponseEntity<List<Product>> findAllPaginated(
+            @PathVariable int pageNum,
+            @PathVariable int amount) {
+
+        List<Product> products = service.findAllPaginated(pageNum, amount);
+        return ResponseEntity.ok(products);
+    }
+
     @ApiOperation(value="Save product")
     @PostMapping
     public ResponseEntity<Product> save(@Valid  @RequestBody Product product) {
@@ -53,7 +63,7 @@ public class ProductController {
                 .path("/{id}")
                 .buildAndExpand(p.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(p);
     }
 
     @ApiOperation(value="Update product")
@@ -65,11 +75,19 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @ApiOperation(value="Execute an order")
+    @ApiOperation(value="Reserve products after an order")
     @PutMapping("/reserveProducts")
     public ResponseEntity<OrderDTO> reserveProducts(@Valid @RequestBody OrderDTO order) {
 
         OrderDTO o = service.reserveProducts(order);
+        return ResponseEntity.ok(o);
+    }
+
+    @ApiOperation(value="Returns products to stock after an order")
+    @PutMapping("/returnProductsStock")
+    public ResponseEntity<OrderDTO> returnProductsStock(@Valid @RequestBody OrderDTO order) {
+
+        OrderDTO o = service.returnProducts(order);
         return ResponseEntity.ok(o);
     }
 

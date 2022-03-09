@@ -10,29 +10,36 @@ import java.util.List;
 
 public class OrderDTO implements Serializable {
 
-    private List<OrderProductDTO> productDTOS;
+    private Long orderId;
+
+    private Long userId;
+
+    private List<OrderProductDTO> products;
 
     @NotNull(message = "Order status cannot be null!")
     private Status status;
 
     private BigDecimal total;
 
+    private BigDecimal discount;
+
+
     public OrderDTO() {
         super();
     }
 
-    public OrderDTO(List<OrderProductDTO> productDTOS, Status status) {
-        this.productDTOS = productDTOS;
+    public OrderDTO(List<OrderProductDTO> products, Status status) {
+        this.products = products;
         this.total = BigDecimal.ZERO;
     }
 
 
-    public List<OrderProductDTO> getProductDTOS() {
-        return productDTOS;
+    public List<OrderProductDTO> getProducts() {
+        return products;
     }
 
-    public void setProductDTOS(List<OrderProductDTO> productDTOS) {
-        this.productDTOS = productDTOS;
+    public void setProducts(List<OrderProductDTO> products) {
+        this.products = products;
     }
 
     public Status getStatus() {
@@ -51,8 +58,33 @@ public class OrderDTO implements Serializable {
         this.total = total;
     }
 
-    public void addValue(String value) {
-        total = total.add(new BigDecimal(value));
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
+    public void addValue(String price, String amount) {
+        BigDecimal result = new BigDecimal(price).multiply(new BigDecimal(amount));
+        total = total.add(result);
     }
 
 }

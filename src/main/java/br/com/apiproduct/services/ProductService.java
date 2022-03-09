@@ -6,6 +6,9 @@ import br.com.apiproduct.models.Product;
 import br.com.apiproduct.repositories.ProductRepository;
 import br.com.apiproduct.templates.OrderProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -50,23 +53,37 @@ public class ProductService {
         return repo.findAllById(ids);
     }
 
+    public List<Product> findAllPaginated(int pageNum, int amount) {
+        Pageable paging = PageRequest.of(pageNum - 1, amount);
+        Page<Product> pagedResult = repo.findAll(paging);
+        return pagedResult.toList();
+    }
+
     public OrderDTO reserveProducts(OrderDTO order) {
         List<OrderProductDTO> list = new ArrayList<>();
-        List<OrderProductDTO> products = order.getProductDTOS();
+        List<OrderProductDTO> products = order.getProducts();
         products.forEach(p -> {
             Product product = findById(p.getIdProduct());
-            if(product != null && order.getStatus() != Status.PAID_OFF) {
-                int resp = product.updateStock(p.getAmount(), order.getStatus());
-                if(resp >= 0) {
-                    repo.save(product);
-                    order.addValue(product.getPrice());;
-                }
-                list.add(p);
+            if(product != null && order.getStatus() == Status.AWAITING_PAYMENT) {
+                int resp = product.subtractStock(p.getAmount());
+                int amount = resp >= 0 ? p.getAmount() : 0;
+                repo.save(product);
+                order.addValue(product.getPrice(), String.valueOf(amount));;
+                list.add(new OrderProductDTO(amount, product.getName(), product.getPrice()));
             }
         });
-        order.setProductDTOS(list);
+        order.setProducts(list);
         return order;
     }
 
+    public OrderDTO returnProducts(OrderDTO order) {
+        List<OrderProductDTO> products = order.getProducts();
+        products.forEach(p -> {
+            Product product = findById(p.getIdProduct());
+            product.addStock(p.getAmount());
+            repo.save(product);
+        });
+        return order;
+    }
 
 }
